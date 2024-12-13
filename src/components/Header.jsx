@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Container from "./Container";
-import LogoutBtn from "./LogoutBtn";
-import Logo from "./Logo";
-// import { useNavigate } from "react-router-dom";
+import { Container } from "./components";
+// import Logo from "./Logo";
+import { Logo } from "./components";
+import { useNavigate } from "react-router-dom";
 function Header() {
-  //   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("Home");
+  const navigate = useNavigate();
   const navItems = [
     {
       name: "Home",
@@ -36,12 +36,12 @@ function Header() {
     },
     {
       name: "Create Sale",
-      url: "/sell-item",
+      url: "/sell",
       active: true,
     },
     {
-      name: "Check Sales",
-      url: "/all-soldItem",
+      name: "All Sales",
+      url: "/all-sales",
       active: true,
     },
   ];
@@ -61,10 +61,15 @@ function Header() {
             {navItems.map((item) => (
               <li key={item.name}>
                 <button
-                  onClick={() => handleNavClick(item.name)}
-                  className={`inline-block px-1 m-0.5 text-sm font-serif duration-200 hover:border-blue-500 hover:border-b-2 sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3 ${
-                    activeItem === item.name ? "border-b-2 border-red-500" : ""
-                  }`}
+                  onClick={() => {
+                    handleNavClick(item.name);
+                    navigate(item.url);
+                  }}
+                  className={`inline-block px-1 m-0.5 text-sm font-serif duration-200 ${
+                    activeItem === item.name
+                      ? "border-b-2 border-red-500"
+                      : "hover:border-blue-500 hover:border-b-2"
+                  } sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3`}
                 >
                   {item.name}
                 </button>

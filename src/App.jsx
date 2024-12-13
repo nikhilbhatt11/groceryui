@@ -8,16 +8,14 @@ function App() {
   return (
     <div>
       <div className="">
-        <div className="fixed w-full">
+        <div className="fixed w-full -mt-4">
           <Header />
         </div>
-        <main className="h-screen bg-gray-500">
+        <main className="min-h-screen bg-gray-500 pt-16">
           <Outlet />
         </main>
-        <div>
-          <Footer />
-        </div>
       </div>
+      <Footer />
     </div>
   );
 }
