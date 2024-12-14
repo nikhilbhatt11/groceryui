@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Logo, Input, Button } from "./components";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function SignupForm() {
   const { register, handleSubmit } = useForm();
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const handleSignUp = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/users/register",
+        data
+      );
+      console.log("User registered successfully:", response.data);
+      navigate("/login");
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const errorMessage =
+          err.response.data.message || "Something went wrong";
+        setError(errorMessage);
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
+  };
   return (
     <div className="flex items-center justify-center mt-10">
       <div
@@ -24,9 +46,9 @@ function SignupForm() {
             LogIn
           </Link>
         </p>
-        {/* {error && <p className="text-red-600 mt-8 text-center">{error}</p>} */}
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
-        <form>
+        <form onSubmit={handleSubmit(handleSignUp)}>
           <div className="space-y-5">
             <Input
               label="Shop Name: "

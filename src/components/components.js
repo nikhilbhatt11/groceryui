@@ -10,6 +10,7 @@ import LogoutBtn from "./LogoutBtn";
 import SignupForm from "./SignupForm";
 import AddItemForm from "./AddItemForm";
 import SaleForm from "./SaleForm";
+import EditItemForm from "./EditItemForm";
 export {
   Button,
   Input,
@@ -23,4 +24,5 @@ export {
   SignupForm,
   AddItemForm,
   SaleForm,
+  EditItemForm,
 };

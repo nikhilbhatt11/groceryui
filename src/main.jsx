@@ -11,13 +11,15 @@ import CreateSale from "./pages/CreateSale.jsx";
 import AllSales from "./pages/AllSales.jsx";
 import Inventry from "./pages/Inventry.jsx";
 
+import UpdateItem from "./pages/UpdateItem.jsx";
+import DetailsPage from "./pages/detailsPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
       {
-        path: "/all-items",
+        path: "/",
         element: <Home />,
       },
       {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
       {
         path: "/shop-inventry",
         element: <Inventry />,
+      },
+      {
+        path: "/details/:productId",
+        element: <DetailsPage />,
+      },
+      {
+        path: "/update-item",
+        element: <UpdateItem />,
       },
     ],
   },

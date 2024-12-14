@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Button, Logo, Select } from "./components";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+
+import axios from "axios";
+import Cookies from "js-cookie";
 function AddItemForm() {
+  const [error, setError] = useState(null);
   const units = ["kg", "liter", "piece"];
   const { register, handleSubmit } = useForm();
+  const handleAddItem = async (data) => {
+    try {
+      const accessToken = Cookies.get("accessToken");
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/products/add-product",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setError(null);
+      console.log("New Product Added successfully:", response.data);
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const errorMessage =
+          err.response.data.message || "Something went wrong";
+        setError(errorMessage);
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
+  };
   return (
     <div className="flex items-center justify-center mt-10 pb-3">
       <div
@@ -16,8 +43,8 @@ function AddItemForm() {
         <h2 className="text-center text-2xl font-bold leading-tight">
           Add new item in the shop
         </h2>
-
-        <form>
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        <form onSubmit={handleSubmit(handleAddItem)}>
           <div className="space-y-5 mt-2">
             <Input
               placeholder="Title"
@@ -37,7 +64,11 @@ function AddItemForm() {
               className="border-gray-200 border-2"
               {...register("StockQuantity", { required: true })}
             />
-            <Select options={units} label="Choose Unit" />
+            <Select
+              options={units}
+              label="Choose Unit"
+              {...register("unit", { required: true })}
+            />
             <Input
               placeholder="Your Purchase Price"
               label="Your Purchase Price"
@@ -55,7 +86,7 @@ function AddItemForm() {
               type="submit"
               className="w-full bg-blue-600 text-white font-bold border rounded-md py-2"
             >
-              Create Account
+              Add Item
             </Button>
           </div>
         </form>

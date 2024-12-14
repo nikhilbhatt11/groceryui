@@ -10,7 +10,7 @@ function Header() {
   const navItems = [
     {
       name: "Home",
-      url: "/all-items",
+      url: "/",
       active: true,
     },
     {
