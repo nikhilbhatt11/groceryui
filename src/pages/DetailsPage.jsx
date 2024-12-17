@@ -29,23 +29,37 @@ function DetailsPage() {
       <div
         className={`mx-auto w-full max-w-lg bg-white rounded-xl p-10 border border-black/10`}
       >
-        <h2 className="text-center text-2xl font-bold leading-tight">
+        <h2 className="text-center text-2xl font-bold leading-tight mb-6">
           {productDetail?.title} Detail
         </h2>
-        <div className="text-lg font-semibold">
-          <h3>Title: {productDetail?.title}</h3>
-          <h3>Category: {productDetail?.category}</h3>
-          <h3>
+        <div className="text-lg font-semibold space-y-4">
+          <h3 className="text-gray-700">Title: {productDetail?.title}</h3>
+          <h3 className="text-gray-700">Category: {productDetail?.category}</h3>
+          <h3
+            className={`rounded py-1 px-2 ${
+              productDetail?.StockQuantity < 10
+                ? "bg-red-500 text-white"
+                : "bg-transparent text-black"
+            }`}
+          >
             Stock Quantity: {productDetail?.StockQuantity} {productDetail?.unit}
           </h3>
-          <h3>Price: {productDetail?.price}</h3>
-          <h3>Discount: {productDetail?.discount}</h3>
+          <h3 className="text-gray-700">
+            Price: &#8377;{productDetail?.price}
+          </h3>
+          <h3 className="text-gray-700">
+            Discount: {productDetail?.discount}%
+          </h3>
         </div>
-        <div className="flex items-center justify-center gap-4">
-          <Button className="bg-green-500 text-white px-2 py-1 rounded md:px-4">
-            <Link>Update</Link>
-          </Button>
-          <Button className="bg-red-500 text-white px-2 py-1 rounded md:px-4">
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <Link
+            to={`/update-item/${productDetail?._id}`}
+            state={{ productDetail }}
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all"
+          >
+            Update
+          </Link>
+          <Button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-all">
             <Link>Delete</Link>
           </Button>
         </div>

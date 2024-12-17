@@ -49,12 +49,12 @@ function Header() {
     setActiveItem(itemName);
   };
   return (
-    <header className=" bg-white w-full py-5">
+    <header className="bg-white w-full py-6">
       <Container>
         <nav className="flex m-auto items-center text-black">
-          <div className="mr-2 sm:mr-4 ">
+          <div className="mr-2 sm:mr-4">
             <Link to="/">
-              <Logo width="120px" />
+              <Logo width="" />
             </Link>
           </div>
           <ul className="flex ml-auto items-center">

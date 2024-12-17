@@ -13,6 +13,8 @@ import Inventry from "./pages/Inventry.jsx";
 
 import UpdateItem from "./pages/UpdateItem.jsx";
 import DetailsPage from "./pages/detailsPage.jsx";
+import RecentSale from "./pages/RecentSale.jsx";
+import SaleDetail from "./pages/saleDetail.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,8 +53,16 @@ const router = createBrowserRouter([
         element: <DetailsPage />,
       },
       {
-        path: "/update-item",
+        path: "/update-item/:productId",
         element: <UpdateItem />,
+      },
+      {
+        path: "/recentSale",
+        element: <RecentSale />,
+      },
+      {
+        path: "/saleDetails/:saleId",
+        element: <SaleDetail />,
       },
     ],
   },

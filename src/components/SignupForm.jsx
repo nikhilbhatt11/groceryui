@@ -28,22 +28,20 @@ function SignupForm() {
   };
   return (
     <div className="flex items-center justify-center mt-10">
-      <div
-        className={`mx-auto w-full max-w-lg bg-white rounded-xl p-10 border border-black/10`}
-      >
-        <div className=" mt-8 -ml-5">
+      <div className="mx-auto w-full max-w-lg bg-white rounded-xl p-10 border border-gray-200 shadow-lg">
+        <div className="mt-8 -ml-5">
           <Logo />
         </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
+        <h2 className="text-center text-2xl font-bold leading-tight text-gray-800">
           Sign Up To Create Account
         </h2>
-        <p className="mt-2 text-center text-base text-black/60">
+        <p className="mt-2 text-center text-base text-gray-600">
           Already have an account?&nbsp;
           <Link
             to="/login"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
+            className="font-medium text-blue-600 transition-all duration-200 hover:underline"
           >
-            LogIn
+            Log In
           </Link>
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
@@ -53,7 +51,7 @@ function SignupForm() {
             <Input
               label="Shop Name: "
               placeholder="Enter your shop name"
-              className="border-gray-200 border-2"
+              className="border-gray-300 border-2 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("shopname", {
                 required: true,
               })}
@@ -61,7 +59,7 @@ function SignupForm() {
             <Input
               label="Owner Name: "
               placeholder="Enter Shop Owner name"
-              className="border-gray-200 border-2"
+              className="border-gray-300 border-2 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("ownername", {
                 required: true,
               })}
@@ -69,7 +67,7 @@ function SignupForm() {
             <Input
               label="Email: "
               placeholder="Enter your email"
-              className="border-gray-200 border-2"
+              className="border-gray-300 border-2 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="email"
               {...register("email", {
                 required: true,
@@ -83,7 +81,7 @@ function SignupForm() {
             <Input
               label="Password: "
               type="password"
-              className="border-gray-200 border-2"
+              className="border-gray-300 border-2 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               {...register("password", {
                 required: true,
@@ -91,7 +89,7 @@ function SignupForm() {
             />
             <Button
               type="submit"
-              className="w-full bg-blue-600 text-white font-bold border rounded-md py-2"
+              className="w-full bg-blue-600 text-white font-bold border rounded-md py-2 hover:bg-blue-700 transition-all duration-300"
             >
               Create Account
             </Button>

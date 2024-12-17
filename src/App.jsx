@@ -11,7 +11,7 @@ function App() {
         <div className="fixed w-full -mt-4">
           <Header />
         </div>
-        <main className="min-h-screen bg-gray-500 pt-16">
+        <main className="min-h-screen bg-gray-400 pt-16">
           <Outlet />
         </main>
       </div>
