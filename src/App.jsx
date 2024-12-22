@@ -8,10 +8,10 @@ function App() {
   return (
     <div>
       <div className="">
-        <div className="fixed w-full -mt-4">
+        <div className="fixed w-full z-20">
           <Header />
         </div>
-        <main className="min-h-screen bg-gray-400 pt-16">
+        <main className="min-h-screen bg-gray-400 mt-12 pt-16">
           <Outlet />
         </main>
       </div>

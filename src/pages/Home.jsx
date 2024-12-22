@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "../components/components";
-import { Link } from "react-router-dom";
+import { Button, Loading } from "../components/components";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 function Home() {
@@ -10,7 +10,9 @@ function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalProducts, setTotalProducts] = useState(0);
-  // const accessToken = Cookies.get("accessToken");
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -20,62 +22,87 @@ function Home() {
         );
 
         setTotalProducts(response.data.data.totalProducts);
-        setProducts(response.data.data.allProducts);
+        setProducts(response.data.data.allProducts || response.data.data);
       } catch (err) {
         setError(err.message || "Failed to fetch products");
-        console.error(err);
       }
+      setLoading(false);
     };
     fetchProducts();
   }, []);
 
-  return (
-    <div className="mt-16 text-center px-4">
-      <h1 className="bg-green-600 text-white text-lg font-semibold rounded-md mb-4 py-2 md:text-3xl md:mx-16">
-        Your All Added Items ({totalProducts})
-      </h1>
+  const navigateToDetailsPage = (product) => {
+    navigate(`/details/${product._id}`);
+  };
 
-      <div className="overflow-x-auto shadow-lg rounded-lg bg-white">
-        <table className="min-w-full border-collapse border border-gray-300">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="border border-gray-300 p-3 text-left">Title</th>
-              <th className="border border-gray-300 p-3 text-left">Category</th>
-              <th className="border border-gray-300 p-3 text-left">
-                Stock QTY
-              </th>
-              <th className="border border-gray-300 p-3 text-left">Price</th>
-              <th className="border border-gray-300 p-3 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product._id} className="hover:bg-gray-50">
-                <td className="border border-gray-300 p-3">{product.title}</td>
-                <td className="border border-gray-300 p-3">
-                  {product.category}
-                </td>
-                <td className="border border-gray-300 p-3">
-                  {product.StockQuantity} {product.unit}
-                </td>
-                <td className="border border-gray-300 p-3">
-                  &#8377;{product.price}
-                </td>
-                <td className="border border-gray-300 p-3">
-                  <Link
-                    to={`/details/${product._id}`}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-                  >
-                    Details
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  if (loading) {
+    return (
+      <div className="text-2xl h-screen w-full flex items-center justify-center">
+        <Loading />
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="mt-16 text-center md:px-4">
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        <h1 className="bg-green-600 text-white text-sm font-semibold rounded-md mb-4 py-2 md:text-3xl md:mx-16">
+          Your All Added Items {totalProducts}
+        </h1>
+        {products?.length === 0 ? (
+          <div className="text-red-600 mt-8 text-center">
+            Add Item to the store
+          </div>
+        ) : (
+          <div className="overflow-x-auto shadow-lg rounded-lg bg-white">
+            <table className="min-w-full border-collapse border border-gray-300">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="border border-gray-300 px-0.5 py-1 text-left">
+                    Title
+                  </th>
+                  <th className="border border-gray-300 px-0.5 py-1 text-left">
+                    Type
+                  </th>
+                  <th className="border border-gray-300 py-1 text-left">QTY</th>
+                  <th className="border border-gray-300 py-1 text-left">
+                    BuyPrice
+                  </th>
+                  <th className="border border-gray-300 py-1 text-left">
+                    sellPrice
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr
+                    key={product._id}
+                    className="hover:bg-gray-200"
+                    onClick={() => navigateToDetailsPage(product)}
+                  >
+                    <td className="border border-gray-300 px-2 py-3">
+                      {product.title}
+                    </td>
+                    <td className="border border-gray-300 px-2 py-3">
+                      {product.category}
+                    </td>
+                    <td className="border border-gray-300 py-1">
+                      {product.StockQuantity} {product.unit}
+                    </td>
+                    <td className="border border-gray-300  py-1">
+                      &#8377;{product.buyprice}
+                    </td>
+                    <td className="border border-gray-300  py-1">
+                      &#8377;{product.price}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default Home;

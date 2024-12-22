@@ -11,6 +11,7 @@ import SignupForm from "./SignupForm";
 import AddItemForm from "./AddItemForm";
 import SaleForm from "./SaleForm";
 import EditItemForm from "./EditItemForm";
+import Loading from "./Loading";
 export {
   Button,
   Input,
@@ -25,4 +26,5 @@ export {
   AddItemForm,
   SaleForm,
   EditItemForm,
+  Loading,
 };

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Container } from "./components";
 // import Logo from "./Logo";
 import { Logo } from "./components";
 import { useNavigate } from "react-router-dom";
 function Header() {
-  const [activeItem, setActiveItem] = useState("Home");
   const navigate = useNavigate();
+  const location = useLocation();
+  const [activeItem, setActiveItem] = useState(location.pathname);
+
   const navItems = [
     {
       name: "Home",
@@ -45,11 +47,14 @@ function Header() {
       active: true,
     },
   ];
+  useEffect(() => {
+    setActiveItem(location.pathname);
+  });
   const handleNavClick = (itemName) => {
     setActiveItem(itemName);
   };
   return (
-    <header className="bg-white w-full py-6">
+    <header className="bg-white w-full py-7 fixed top-0 left-0 z-50 shadow-md">
       <Container>
         <nav className="flex m-auto items-center text-black">
           <div className="mr-2 sm:mr-4">
@@ -66,9 +71,9 @@ function Header() {
                     navigate(item.url);
                   }}
                   className={`inline-block px-1 m-0.5 text-sm font-serif duration-200 ${
-                    activeItem === item.name
+                    activeItem === item.url
                       ? "border-b-2 border-red-500"
-                      : "hover:border-blue-500 hover:border-b-2"
+                      : "hover:border-green-500 hover:border-b-2"
                   } sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3`}
                 >
                   {item.name}

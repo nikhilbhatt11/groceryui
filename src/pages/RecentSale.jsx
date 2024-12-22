@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 function RecentSale() {
   const location = useLocation();
@@ -7,7 +7,7 @@ function RecentSale() {
   const { products, customername, contactNo, totalSaleAmount, payment } =
     saleData;
   return (
-    <div className="mt-20 flex items-center justify-center md:flex md:flex-col md:items-center">
+    <div className="mt-20 flex flex-col items-center md:justify-center md:flex md:flex-col md:items-center">
       <h1 className="bg-green-600 text-center text-white text-lg font-semibold mx-16 px-2 rounded-md mb-2 py-2 md:text-3xl md:w-2/3">
         Your Recent Sale
       </h1>
