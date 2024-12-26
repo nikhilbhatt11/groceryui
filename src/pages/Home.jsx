@@ -85,7 +85,13 @@ function Home() {
                     <td className="border border-gray-300 px-2 py-3">
                       {product.category}
                     </td>
-                    <td className="border border-gray-300 py-1">
+                    <td
+                      className={`border border-gray-300 py-1 ${
+                        product.StockQuantity < 10
+                          ? "bg-red-400 text-white"
+                          : ""
+                      }`}
+                    >
                       {product.StockQuantity} {product.unit}
                     </td>
                     <td className="border border-gray-300  py-1">

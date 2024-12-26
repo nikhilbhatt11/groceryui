@@ -15,6 +15,8 @@ import UpdateItem from "./pages/UpdateItem.jsx";
 import DetailsPage from "./pages/detailsPage.jsx";
 import RecentSale from "./pages/RecentSale.jsx";
 import SaleDetail from "./pages/saleDetail.jsx";
+import Shop_Wishlist_Page from "./pages/Shop_Wishlist_Page.jsx";
+import MonthlyGrowthChartPage from "./pages/MonthlyGrowthChartPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
       {
         path: "/saleDetails/:saleId",
         element: <SaleDetail />,
+      },
+      {
+        path: "/wishlist",
+        element: <Shop_Wishlist_Page />,
+      },
+      {
+        path: "/monthAnalytics",
+        element: <MonthlyGrowthChartPage />,
       },
     ],
   },

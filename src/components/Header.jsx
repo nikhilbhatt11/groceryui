@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Container } from "./components";
+import { Container, LogoutBtn, Menubar } from "../components/components.js";
 // import Logo from "./Logo";
 import { Logo } from "./components";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +10,6 @@ function Header() {
   const [activeItem, setActiveItem] = useState(location.pathname);
 
   const navItems = [
-    {
-      name: "Home",
-      url: "/",
-      active: true,
-    },
     {
       name: "Login",
       url: "/login",
@@ -26,7 +21,13 @@ function Header() {
       active: true,
     },
     {
-      name: "Shop Inventry",
+      name: "Home",
+      url: "/",
+      active: true,
+    },
+
+    {
+      name: "Inventry",
       url: "/shop-inventry",
       active: true,
     },
@@ -37,13 +38,18 @@ function Header() {
       active: true,
     },
     {
-      name: "Create Sale",
+      name: "Sell",
       url: "/sell",
       active: true,
     },
     {
       name: "All Sales",
       url: "/all-sales",
+      active: true,
+    },
+    {
+      name: "shop todos",
+      url: "/wishlist",
       active: true,
     },
   ];
@@ -64,7 +70,7 @@ function Header() {
           </div>
           <ul className="flex ml-auto items-center">
             {navItems.map((item) => (
-              <li key={item.name}>
+              <li key={item.name} className="invisible sm:visible">
                 <button
                   onClick={() => {
                     handleNavClick(item.name);
@@ -80,6 +86,14 @@ function Header() {
                 </button>
               </li>
             ))}
+            {/* {authStatus && ( */}
+            <li className="invisible sm:visible">
+              <LogoutBtn />
+            </li>
+            {/* )} */}
+            <li className="text-3xl -ml-96  sm:invisible sm:text-xs sm:-ml-10">
+              <Menubar />
+            </li>
           </ul>
         </nav>
       </Container>

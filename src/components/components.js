@@ -12,6 +12,10 @@ import AddItemForm from "./AddItemForm";
 import SaleForm from "./SaleForm";
 import EditItemForm from "./EditItemForm";
 import Loading from "./Loading";
+import Wishlist from "./Wishlist";
+import MonthlySalesChart from "./MonthlySalesChart";
+
+import Menubar from "./Menubar";
 export {
   Button,
   Input,
@@ -27,4 +31,7 @@ export {
   SaleForm,
   EditItemForm,
   Loading,
+  Wishlist,
+  MonthlySalesChart,
+  Menubar,
 };

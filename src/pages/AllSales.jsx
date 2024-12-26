@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Button, Loading } from "../components/components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function AllSales() {
   const [salesDate, setSalesDate] = useState("Today");
   const [allSales, setAllSales] = useState([]);
@@ -114,13 +114,19 @@ function AllSales() {
   } else {
     return (
       <div className="mt-16 text-center px-4">
-        <div className="flex items-center mx-2 mb-4">
+        <div className="flex items-center mx-2 mb-4 gap-2">
           <Input
             type="date"
             label=""
             className=" border-gray-300"
             onChange={handleInputChange}
           />
+          <Link
+            to={"/monthAnalytics"}
+            className="bg-green-400 px-5 py-1 rounded-md text-white font-semibold"
+          >
+            Growth Graph
+          </Link>
         </div>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
