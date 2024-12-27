@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 // import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LogoutBtn } from "../components/components.js";
 
 function Menubar() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(location.pathname);
   //   const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
 
@@ -53,9 +55,14 @@ function Menubar() {
     },
   ];
 
-  const toggleMenu = () => {
+  useEffect(() => {
+    setActiveItem(location.pathname);
+  });
+
+  const toggleMenu = (itemName) => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div className="relative">
       <RxHamburgerMenu onClick={toggleMenu} />
@@ -73,9 +80,12 @@ function Menubar() {
                 <button
                   onClick={() => {
                     navigate(item.url);
-                    setIsOpen(false); // Close the menu
+                    setIsOpen(false);
+                    setActiveItem(item.name);
                   }}
-                  className=" inline-block px-1 m-0.5 text-sm font-serif duration-200  hover:border-blue-500 hover:border-b-2 sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3"
+                  className={`inline-block px-1 m-0.5 text-sm font-serif duration-200  active:border-blue-500 hover:border-b-2 sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3 ${
+                    activeItem === item.url ? "border-b-2 border-red-500" : ""
+                  }`}
                 >
                   {item.name}
                 </button>

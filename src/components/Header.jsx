@@ -60,43 +60,43 @@ function Header() {
     setActiveItem(itemName);
   };
   return (
-    <header className="bg-white w-full py-7 fixed top-0 left-0 z-50 shadow-md">
-      <Container>
-        <nav className="flex m-auto items-center text-black">
-          <div className="mr-2 sm:mr-4">
-            <Link to="/">
-              <Logo width="" />
-            </Link>
-          </div>
-          <ul className="flex ml-auto items-center">
-            {navItems.map((item) => (
-              <li key={item.name} className="invisible sm:visible">
-                <button
-                  onClick={() => {
-                    handleNavClick(item.name);
-                    navigate(item.url);
-                  }}
-                  className={`inline-block px-1 m-0.5 text-sm font-serif duration-200 ${
-                    activeItem === item.url
-                      ? "border-b-2 border-red-500"
-                      : "hover:border-green-500 hover:border-b-2"
-                  } sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3`}
-                >
-                  {item.name}
-                </button>
-              </li>
-            ))}
-            {/* {authStatus && ( */}
-            <li className="invisible sm:visible">
-              <LogoutBtn />
+    <header className="bg-white w-full py-9 fixed top-0 left-0 z-50 shadow-md">
+      {/* <Container> */}
+      <nav className="flex mx-5 md:mx-10 items-center justify-between text-black">
+        <div className="mr-2 sm:mr-4">
+          <Link to="/">
+            <Logo width="" />
+          </Link>
+        </div>
+        <ul className="flex ml-auto items-center">
+          {navItems.map((item) => (
+            <li key={item.name} className="invisible sm:visible">
+              <button
+                onClick={() => {
+                  handleNavClick(item.name);
+                  navigate(item.url);
+                }}
+                className={`inline-block px-1 m-0.5 text-sm font-serif duration-200 ${
+                  activeItem === item.url
+                    ? "border-b-2 border-red-500"
+                    : "hover:border-green-500 hover:border-b-2"
+                } sm:text-base sm:px-2 sm:m-2 lg:text-xl lg:px-3`}
+              >
+                {item.name}
+              </button>
             </li>
-            {/* )} */}
-            <li className="text-3xl -ml-96  sm:invisible sm:text-xs sm:-ml-10">
-              <Menubar />
-            </li>
-          </ul>
-        </nav>
-      </Container>
+          ))}
+          {/* {authStatus && ( */}
+          <li className="invisible sm:visible">
+            <LogoutBtn />
+          </li>
+          {/* )} */}
+          <li className="text-3xl -ml-96 sm:invisible  sm:text-xs sm:-ml-10">
+            <Menubar />
+          </li>
+        </ul>
+      </nav>
+      {/* </Container> */}
     </header>
   );
 }

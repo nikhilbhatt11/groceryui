@@ -26,6 +26,16 @@ function DetailsPage() {
     fetchProductById();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
+
   const deleteProduct = async () => {
     setLoading(true);
     try {
@@ -59,7 +69,12 @@ function DetailsPage() {
     return (
       <div className="flex flex-col items-center justify-center mt-10">
         {error && (
-          <p className="text-red-500 text-lg font-semibold mt-16">{error}</p>
+          <div
+            className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+            role="alert"
+          >
+            {error}
+          </div>
         )}
         {!error && productDetail && (
           <div

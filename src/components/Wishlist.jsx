@@ -11,10 +11,11 @@ function Wishlist() {
   const [subTodos, setSubTodos] = useState([]);
   const [subTodoInput, setSubTodoInput] = useState("");
   const [error, setError] = useState(null);
-  const [successMsg, setSuccessMsg] = useState(null);
+
   const [reload, setReload] = useState(false);
   const [updateTodo, setupdateTodo] = useState("");
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setLoading(true);
     const fetchAllTodod = async () => {
@@ -69,7 +70,6 @@ function Wishlist() {
           { withCredentials: true }
         );
 
-        setSuccessMsg(response.data.message || "todo added successfully");
         setTodoHeading("");
         setReload(!reload);
         localStorage.setItem("subTodoList", JSON.stringify([]));
@@ -88,11 +88,12 @@ function Wishlist() {
         {},
         { withCredentials: true }
       );
-      console.log(response);
+      console.log(response.data.message);
+      setSuccessMsg(response.data.message);
     } catch (error) {
       setError("error in updating the todod");
     }
-    setReload(!reload);
+    // setReload(!reload);
   };
 
   // Update main todo heading
@@ -179,6 +180,16 @@ function Wishlist() {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
+
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -188,6 +199,15 @@ function Wishlist() {
   } else {
     return (
       <div className="p-4">
+        {error && (
+          <div
+            className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+            role="alert"
+          >
+            {error}
+          </div>
+        )}
+
         <h1 className="text-xl font-bold mb-4">Shop Todos</h1>
 
         {/* Add a new todo */}

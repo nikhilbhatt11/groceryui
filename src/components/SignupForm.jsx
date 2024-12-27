@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Logo, Input, Button, Loading } from "./components";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -29,6 +29,15 @@ function SignupForm() {
     }
     setLoading(false);
   };
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -54,7 +63,14 @@ function SignupForm() {
               Log In
             </Link>
           </p>
-          {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+          {error && (
+            <div
+              className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit(handleSignUp)}>
             <div className="space-y-5">

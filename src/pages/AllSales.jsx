@@ -105,6 +105,16 @@ function AllSales() {
     navigate(`/saleDetails/${sale._id}`, { state: { sale } });
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
+
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -128,7 +138,14 @@ function AllSales() {
             Growth Graph
           </Link>
         </div>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {error && (
+          <div
+            className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+            role="alert"
+          >
+            {error}
+          </div>
+        )}
 
         {allSales.length > 0 ? (
           <h1 className="text-xl mt-4 mb-4 px-2 font-semibold text-white bg-green-600 mx-12 rounded-md py-2">

@@ -112,6 +112,26 @@ function SaleDetail() {
     setNewQuantity(qty);
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (prodDeletionMsg) {
+      const timer = setTimeout(() => {
+        setProdDeletionMsg(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [prodDeletionMsg]);
+
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -125,9 +145,21 @@ function SaleDetail() {
           Sale Details
         </h1>
         {prodDeletionMsg && (
-          <p className="text-green-600 mt-8 text-center">{prodDeletionMsg}</p>
+          <div
+            className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-green-600 text-white py-2 px-4 rounded-md shadow-lg"
+            role="alert"
+          >
+            {prodDeletionMsg}
+          </div>
         )}
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {error && (
+          <div
+            className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+            role="alert"
+          >
+            {error}
+          </div>
+        )}
         {saleDetails.products.length == 0 ? (
           <h2 text-red-600 mt-8 text-center text-lg>
             The whole sale is deleted

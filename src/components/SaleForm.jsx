@@ -199,6 +199,16 @@ function SaleForm() {
       setError("error deleting item locally");
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -215,9 +225,12 @@ function SaleForm() {
         >
           <div className="space-y-4">
             {error && (
-              <h1 className="bg-red-400 font-semibold text-white text-center py-2 rounded-md">
+              <div
+                className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+                role="alert"
+              >
                 {error}
-              </h1>
+              </div>
             )}
             <h1 className="font-bold text-2xl text-center text-gray-800">
               Sell Item

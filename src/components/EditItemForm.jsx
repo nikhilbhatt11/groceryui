@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input, Button, Logo, Select } from "./components";
+import { Input, Button, Logo, Select, Loading } from "./components";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 function EditItemForm() {
@@ -52,6 +52,26 @@ function EditItemForm() {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (successMsg) {
+      const timer = setTimeout(() => {
+        setSuccessMsg(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [successMsg]);
+
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -70,10 +90,23 @@ function EditItemForm() {
           <h2 className="text-center text-2xl font-bold leading-tight">
             Update Item Details
           </h2>
+
           {successMsg && (
-            <p className="text-green-600 mt-8 text-center">{successMsg}</p>
+            <div
+              className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-green-600 text-white py-2 px-4 rounded-md shadow-lg"
+              role="alert"
+            >
+              {successMsg}
+            </div>
           )}
-          {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+          {error && (
+            <div
+              className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit(handleUpdateItem)}>
             <div className="space-y-5 mt-2">
               <Input

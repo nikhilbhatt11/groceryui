@@ -34,6 +34,16 @@ function Inventry() {
     navigate(`/details/${product._id}`);
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [error]);
+
   if (loading) {
     return (
       <div className="text-2xl h-screen w-full flex items-center justify-center">
@@ -43,7 +53,14 @@ function Inventry() {
   } else {
     return (
       <div className="mt-16 text-center md:px-4">
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {error && (
+          <div
+            className="fixed top-5 mt-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white py-2 px-4 rounded-md shadow-lg"
+            role="alert"
+          >
+            {error}
+          </div>
+        )}
         <h1 className="bg-green-600 text-white text-lg font-semibold rounded-md mb-4 py-2 md:text-3xl md:mx-16">
           Shop Inventory Products {totalProducts}
         </h1>
