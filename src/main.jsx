@@ -24,6 +24,7 @@ import MonthlyGrowthChartPage from "./pages/MonthlyGrowthChartPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import FirstPage from "./pages/FirstPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <FirstPage />,
+      },
+      {
+        path: "/home",
         element: (
           <ProtectedRoute>
             <Home />
