@@ -15,7 +15,7 @@ function Menubar() {
   const navItems = [
     {
       name: "Home",
-      url: "/",
+      url: "/home",
       active: authStatus,
     },
     {
