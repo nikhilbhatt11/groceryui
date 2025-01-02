@@ -28,7 +28,7 @@ function Header() {
   const navItems = [
     ...(isLoggedIn
       ? [
-          { name: "Home", url: "/" },
+          { name: "Home", url: "/home" },
           { name: "Inventory", url: "/shop-inventry" },
           { name: "Add Items", url: "/add-item" },
           { name: "Sell", url: "/sell" },
