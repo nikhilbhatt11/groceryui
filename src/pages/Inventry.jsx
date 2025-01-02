@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { allProductsfn, changeCurrPage } from "../store/inventrySlice.js";
 function Inventry() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [allProducts, setAllProducts] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,9 +23,10 @@ function Inventry() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/products/inventry?page=${currentPage}&limit=${limit}`,
+        `${API_URL}/products/inventry?page=${currentPage}&limit=${limit}`,
         { withCredentials: true }
       );
+      console.log(response);
 
       const allproducts = response.data.data.products;
 

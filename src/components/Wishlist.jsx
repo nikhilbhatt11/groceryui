@@ -6,6 +6,7 @@ import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import Loading from "./Loading";
 
 function Wishlist() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [todos, setTodos] = useState([]);
   const [todoHeading, setTodoHeading] = useState("");
   const [subTodos, setSubTodos] = useState([]);
@@ -19,10 +20,9 @@ function Wishlist() {
   useEffect(() => {
     setLoading(true);
     const fetchAllTodod = async () => {
-      const response = await axios.get(
-        "http://localhost:8000/api/v1/wishlist/all-todos",
-        { withCredentials: true }
-      );
+      const response = await axios.get(`${API_URL}/wishlist/all-todos`, {
+        withCredentials: true,
+      });
 
       setTodos(response.data.data);
       setLoading(false);

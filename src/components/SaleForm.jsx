@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { GiShipWheel } from "react-icons/gi";
 function SaleForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const [quantity, setQuantity] = useState();
@@ -44,7 +45,7 @@ function SaleForm() {
       setSearchLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/products/search?title=${query}`,
+          `${API_URL}/products/search?title=${query}`,
           { withCredentials: true }
         );
 
@@ -162,11 +163,9 @@ function SaleForm() {
     const createSale = async () => {
       setLoading(true);
       try {
-        const response = await axios.post(
-          "http://localhost:8000/api/v1/sales/sale",
-          finalData,
-          { withCredentials: true }
-        );
+        const response = await axios.post(`${API_URL}/sales/sale`, finalData, {
+          withCredentials: true,
+        });
 
         if (response.data && response.data.data) {
           navigate("/recentSale", {

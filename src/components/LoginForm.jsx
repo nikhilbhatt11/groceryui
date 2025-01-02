@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 
 function LoginForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState();
   const { register, handleSubmit } = useForm();
@@ -32,10 +33,7 @@ function LoginForm() {
   const handleLogin = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/users/login",
-        data
-      );
+      const response = await axios.post(`${API_URL}/users/login`, data);
       console.log(response.data.data);
       const { accessToken, refreshToken, user } = response.data.data;
       const accessExpiry = getTokenExpiryTime(accessToken);

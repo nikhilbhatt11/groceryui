@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { allProductsfn, changeCurrPage } from "../store/homeSlice.js";
 function Home() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [allProducts, setAllProducts] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,9 +23,10 @@ function Home() {
   const fetchProducts = async (currentPage) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/products/?page=${currentPage}&limit=${limit}`,
+        `${API_URL}/products/?page=${currentPage}&limit=${limit}`,
         { withCredentials: true }
       );
+
       console.log(response.data.data);
       const allproducts = response.data.data.allProducts;
       const totalProducts = response.data.data.totalProducts || 0;

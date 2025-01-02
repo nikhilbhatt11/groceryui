@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allSalesfn, changeCurrPage } from "../store/allSalesSlice.js";
 function AllSales() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [salesDate, setSalesDate] = useState("Today");
   const [allSales, setAllSales] = useState([]);
   const [totalSalesCount, setTotalSalesCount] = useState(0);
@@ -33,7 +34,7 @@ function AllSales() {
     console.log("fetch called");
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/sales/todaysales?page=${currentPage}&limit=${limit}`,
+        `${API_URL}/sales/todaysales?page=${currentPage}&limit=${limit}`,
         { withCredentials: true }
       );
 
@@ -85,7 +86,7 @@ function AllSales() {
     setError(null);
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/sales/salesofdate?date=${salesDate}&page=${currentPage}&limit=${limit}`,
+        `${API_URL}/sales/salesofdate?date=${salesDate}&page=${currentPage}&limit=${limit}`,
 
         { withCredentials: true }
       );

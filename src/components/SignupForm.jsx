@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 function SignupForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState();
@@ -12,10 +13,7 @@ function SignupForm() {
   const handleSignUp = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/users/register",
-        data
-      );
+      const response = await axios.post(`${API_URL}/users/register`, data);
       console.log("User registered successfully:", response.data);
       navigate("/login");
     } catch (err) {

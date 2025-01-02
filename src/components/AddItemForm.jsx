@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 function AddItemForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const [loading, setLoading] = useState();
@@ -16,7 +17,7 @@ function AddItemForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/products/add-product",
+        `${API_URL}/products/add-product`,
         data,
         { withCredentials: true }
       );

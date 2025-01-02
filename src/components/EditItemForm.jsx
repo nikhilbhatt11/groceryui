@@ -4,6 +4,7 @@ import { Input, Button, Logo, Select, Loading } from "./components";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 function EditItemForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const location = useLocation();
   const item = location.state?.productDetail;
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function EditItemForm() {
     setSuccessMsg(null);
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/products/${productId}`,
+        `${API_URL}/products/${productId}`,
         processedData,
         { withCredentials: true }
       );

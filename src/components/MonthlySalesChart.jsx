@@ -11,6 +11,7 @@ defaults.plugins.title.align = "start";
 defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "black";
 function MonthlySalesChart() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,7 +19,7 @@ function MonthlySalesChart() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/sales/monthly",
+        `${API_URL}/sales/monthly`,
 
         { withCredentials: true }
       );

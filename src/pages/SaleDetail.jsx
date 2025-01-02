@@ -6,6 +6,7 @@ import axios from "axios";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import Loading from "../components/Loading";
 function SaleDetail() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const location = useLocation();
   const navigate = useNavigate();
   const { sale } = location.state || {};
@@ -21,12 +22,9 @@ function SaleDetail() {
       return;
     }
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/sales/${saleId}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${API_URL}/sales/${saleId}`, {
+        withCredentials: true,
+      });
 
       setSalesDetail(response.data.data);
       setError(null);
@@ -50,7 +48,7 @@ function SaleDetail() {
     setLoading(true);
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/sales/${saleId}/${productId}?quantity=${quantity}`,
+        `${API_URL}/sales/${saleId}/${productId}?quantity=${quantity}`,
         {},
 
         { withCredentials: true }
@@ -79,7 +77,7 @@ function SaleDetail() {
     } else {
       try {
         const response = await axios.delete(
-          `http://localhost:8000/api/v1/sales/deletesaledProduct/${saleId}/${productId}`,
+          `${API_URL}/sales/deletesaledProduct/${saleId}/${productId}`,
           { withCredentials: true }
         );
         console.log(response.data.message);
@@ -96,10 +94,9 @@ function SaleDetail() {
     console.log(sale._id);
     const saleId = sale._id;
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/v1/sales/delete/${saleId}`,
-        { withCredentials: true }
-      );
+      const response = await axios.delete(`${API_URL}/sales/delete/${saleId}`, {
+        withCredentials: true,
+      });
       setProdDeletionMsg(response.data.message);
       navigate("/all-sales");
     } catch (error) {

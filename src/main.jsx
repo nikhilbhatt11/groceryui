@@ -18,7 +18,7 @@ import Inventry from "./pages/Inventry.jsx";
 import UpdateItem from "./pages/UpdateItem.jsx";
 import DetailsPage from "./pages/DetailsPage.jsx";
 import RecentSale from "./pages/RecentSale.jsx";
-import SaleDetail from "./pages/saleDetail.jsx";
+import SaleDetail from "./pages/SaleDetail.jsx";
 import Shop_Wishlist_Page from "./pages/Shop_Wishlist_Page.jsx";
 import MonthlyGrowthChartPage from "./pages/MonthlyGrowthChartPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";

@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 function LogoutBtn() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = async () => {
     console.log("handle logout called");
     await axios.post(
-      "http://localhost:8000/api/v1/users/logout",
+      `${API_URL}/users/logout`,
       {},
       {
         withCredentials: true,

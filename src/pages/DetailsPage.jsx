@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Button, Loading } from "../components/components";
 import { Link } from "react-router-dom";
 function DetailsPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const { productId } = useParams();
   const [productDetail, setProductDetail] = useState({});
   const [error, setError] = useState(null);
@@ -12,10 +13,9 @@ function DetailsPage() {
   useEffect(() => {
     const fetchProductById = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/products/${productId}`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${API_URL}/products/${productId}`, {
+          withCredentials: true,
+        });
 
         setProductDetail(response.data.data);
       } catch (err) {
@@ -39,10 +39,9 @@ function DetailsPage() {
   const deleteProduct = async () => {
     setLoading(true);
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/v1/products/${productId}`,
-        { withCredentials: true }
-      );
+      const response = await axios.delete(`${API_URL}/products/${productId}`, {
+        withCredentials: true,
+      });
       setIsDeleted(true);
     } catch (err) {
       setError(err.message || "Failed to delete products");
