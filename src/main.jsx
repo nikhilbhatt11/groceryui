@@ -2,7 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
@@ -12,11 +16,14 @@ import AllSales from "./pages/AllSales.jsx";
 import Inventry from "./pages/Inventry.jsx";
 
 import UpdateItem from "./pages/UpdateItem.jsx";
-import DetailsPage from "./pages/detailsPage.jsx";
+import DetailsPage from "./pages/DetailsPage.jsx";
 import RecentSale from "./pages/RecentSale.jsx";
 import SaleDetail from "./pages/saleDetail.jsx";
 import Shop_Wishlist_Page from "./pages/Shop_Wishlist_Page.jsx";
 import MonthlyGrowthChartPage from "./pages/MonthlyGrowthChartPage.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,7 +31,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/signup",
@@ -36,52 +47,94 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-item",
-        element: <AddItem />,
+        element: (
+          <ProtectedRoute>
+            <AddItem />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/sell",
-        element: <CreateSale />,
+        element: (
+          <ProtectedRoute>
+            <CreateSale />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/all-sales",
-        element: <AllSales />,
+        element: (
+          <ProtectedRoute>
+            <AllSales />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/shop-inventry",
-        element: <Inventry />,
+        element: (
+          <ProtectedRoute>
+            <Inventry />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/details/:productId",
-        element: <DetailsPage />,
+        element: (
+          <ProtectedRoute>
+            <DetailsPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/update-item/:productId",
-        element: <UpdateItem />,
+        element: (
+          <ProtectedRoute>
+            <UpdateItem />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/recentSale",
-        element: <RecentSale />,
+        element: (
+          <ProtectedRoute>
+            <RecentSale />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/saleDetails/:saleId",
-        element: <SaleDetail />,
+        element: (
+          <ProtectedRoute>
+            <SaleDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/wishlist",
-        element: <Shop_Wishlist_Page />,
+        element: (
+          <ProtectedRoute>
+            <Shop_Wishlist_Page />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/monthAnalytics",
-        element: <MonthlyGrowthChartPage />,
+        element: (
+          <ProtectedRoute>
+            <MonthlyGrowthChartPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router}>
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </RouterProvider>
+  <Provider store={store}>
+    <RouterProvider router={router}>
+      <StrictMode>
+        <App />
+      </StrictMode>
+    </RouterProvider>
+  </Provider>
 );

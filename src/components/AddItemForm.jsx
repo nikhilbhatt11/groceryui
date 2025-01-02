@@ -10,6 +10,7 @@ function AddItemForm() {
   const [loading, setLoading] = useState();
   const units = ["kg", "liter", "piece"];
   const { register, handleSubmit, reset } = useForm();
+
   const handleAddItem = async (data) => {
     setLoading(true);
 

@@ -3,13 +3,32 @@ import { Input, Button, Logo, Loading } from "./components";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { all } from "axios";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { login, setAuthStatus, logout } from "../store/authSlice.js";
+import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+
 function LoginForm() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const { status, userData } = useSelector((state) => state.auth);
+
+  const getTokenExpiryTime = (token) => {
+    const decodedToken = jwtDecode(token);
+    const expiryTime = decodedToken.exp;
+    console.log(expiryTime);
+    const expiryDate = new Date(expiryTime * 1000);
+    console.log(expiryDate);
+    const date = new Date(expiryDate).getTime();
+    console.log(date);
+    return date;
+  };
+
   const handleLogin = async (data) => {
     setLoading(true);
     try {
@@ -17,15 +36,22 @@ function LoginForm() {
         "http://localhost:8000/api/v1/users/login",
         data
       );
-      console.log("User Login successfully:", response.data);
-      const { accessToken, refreshToken } = response.data.data;
-      console.log(accessToken);
-      console.log(refreshToken);
-      Cookies.set("accessToken", accessToken, { expires: 1 });
-      Cookies.set("refreshToken", refreshToken, { expires: 10 });
+      console.log(response.data.data);
+      const { accessToken, refreshToken, user } = response.data.data;
+      const accessExpiry = getTokenExpiryTime(accessToken);
+      // const refreshExpiry = getTokenExpiryTime(refreshToken);
 
+      Cookies.set("accessToken", accessToken);
+      // Cookies.set("refreshToken", refreshToken);
+
+      localStorage.setItem("ate", accessExpiry);
+      // localStorage.setItem("rte", refreshExpiry);
+
+      // localStorage.setItem("refreshToken", refreshToken);
+      dispatch(login(user));
       navigate("/add-item");
     } catch (err) {
+      console.log(err);
       if (err.response && err.response.data) {
         const errorMessage =
           err.response.data.message || "Something went wrong";

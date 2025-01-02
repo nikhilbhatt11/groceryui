@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LogoutBtn } from "../components/components.js";
 
@@ -8,50 +8,51 @@ function Menubar() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(location.pathname);
-  //   const authStatus = useSelector((state) => state.auth.status);
+  const authStatus = useSelector((state) => state.auth.status);
+
   const navigate = useNavigate();
 
   const navItems = [
     {
       name: "Home",
       url: "/",
-      active: true,
+      active: authStatus,
     },
     {
       name: "Login",
       url: "/login",
-      active: true,
+      active: !authStatus,
     },
     {
       name: "Signup",
       url: "/signup",
-      active: true,
+      active: !authStatus,
     },
     {
       name: "Inventry",
       url: "/shop-inventry",
-      active: true,
+      active: authStatus,
     },
 
     {
       name: "Add Items",
       url: "/add-item",
-      active: true,
+      active: authStatus,
     },
     {
       name: "Sell",
       url: "/sell",
-      active: true,
+      active: authStatus,
     },
     {
       name: "All Sales",
       url: "/all-sales",
-      active: true,
+      active: authStatus,
     },
     {
       name: "shop todos",
       url: "/wishlist",
-      active: true,
+      active: authStatus,
     },
   ];
 
@@ -93,9 +94,13 @@ function Menubar() {
             ) : null
           )}
           {/* {authStatus && ( */}
-          <li>
-            <LogoutBtn />
-          </li>
+          {authStatus ? (
+            <li>
+              <LogoutBtn />
+            </li>
+          ) : (
+            <></>
+          )}
           {/* )} */}
         </ul>
       </nav>

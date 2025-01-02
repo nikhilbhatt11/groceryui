@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Input, Button, Loading } from "../components/components";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { allSalesfn, changeCurrPage } from "../store/allSalesSlice.js";
 function AllSales() {
   const [salesDate, setSalesDate] = useState("Today");
   const [allSales, setAllSales] = useState([]);
@@ -10,45 +12,123 @@ function AllSales() {
   const [dayprofit, setDayProfit] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchTodaySale = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/api/v1/sales/todaysales",
-          { withCredentials: true }
-        );
+  const dispatch = useDispatch();
 
-        const {
-          todayAllSale,
-          totalSales,
-          totalEarningToday,
-          totalprofitToday,
-        } = response.data.data;
+  const {
+    sales,
+    totalsales,
+    currentpage,
+    totalpages,
+    totalearning,
+    totalprofit,
+    lastgetpage,
+    date,
+  } = useSelector((state) => state.allsales);
 
-        setAllSales(todayAllSale || []);
-        setTotalSalesCount(totalSales || 0);
+  const fetchTodaySale = async (currentPage) => {
+    console.log("fetch called");
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/sales/todaysales?page=${currentPage}&limit=${limit}`,
+        { withCredentials: true }
+      );
 
-        if (totalEarningToday && totalEarningToday.length > 0) {
-          setTotalEarning(totalEarningToday[0].totalAmount);
-        } else {
-          setTotalEarning(0);
-        }
-        if (totalprofitToday && totalprofitToday.length > 0) {
-          setDayProfit(
-            totalEarningToday[0].totalAmount - totalprofitToday[0].totalAmount
-          );
-        } else {
-          setDayProfit(0);
-        }
-        setError(null);
-      } catch (error) {
-        setError("Error in fetching All sales");
+      const allsales = response.data.data.todayAllSale;
+
+      const totalsales = response.data.data.totalSales;
+
+      const currentpage = response.data.data.currentPage;
+
+      const totalpages = response.data.data.totalPages || 1;
+
+      const totalprofit =
+        response.data.data.totalprofitToday[0]?.totalAmount || 0;
+
+      const totalearning =
+        response.data.data.totalEarningToday[0]?.totalAmount || 0;
+
+      const date = "Today";
+
+      dispatch(
+        allSalesfn({
+          sales: allsales,
+          totalsales,
+          currentpage,
+          totalpages,
+          totalprofit,
+          totalearning,
+          lastgetpage: currentpage,
+          date,
+        })
+      );
+
+      setAllSales(allsales);
+      setTotalSalesCount(totalsales);
+      setTotalEarning(totalearning);
+      setDayProfit(totalearning - totalprofit);
+      setTotalPages(totalpages);
+
+      if (allsales.length === 0) {
+        setError("No sale is present");
       }
-      setLoading(false);
-    };
-    fetchTodaySale();
-  }, []);
+    } catch (error) {
+      setError("Error in fetching sales");
+    }
+    setLoading(false);
+  };
+
+  const fetchSalesOfPreDate = async (currentPage) => {
+    setError(null);
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/sales/salesofdate?date=${salesDate}&page=${currentPage}&limit=${limit}`,
+
+        { withCredentials: true }
+      );
+
+      const allsales = response.data.data.allsalesofDate;
+
+      const totalsales = response.data.data.totalSales;
+      const currentpage = response.data.data.currentPage;
+      const totalpages = response.data.data.totalPages || 1;
+
+      const totalprofit =
+        response.data.data.totalprofitOfDay[0]?.totalAmount || 0;
+      const totalearning = response.data.data.totalEarning[0]?.totalAmount || 0;
+      const date = response.data.data.date;
+
+      dispatch(
+        allSalesfn({
+          sales: allsales,
+          totalsales,
+          currentpage,
+          totalpages,
+          totalprofit,
+          totalearning,
+          lastgetpage: currentpage,
+          date,
+        })
+      );
+
+      setAllSales(allsales);
+      setTotalSalesCount(totalsales);
+      setTotalEarning(totalearning);
+      setDayProfit(totalearning - totalprofit);
+      setTotalPages(totalpages);
+      setCurrentPage(currentPage);
+      setSalesDate(date);
+      if (allsales.length === 0) {
+        setError("No sale is present");
+      }
+    } catch (error) {
+      setError("Error in fetching allsales or please check the date again");
+    }
+    setLoading(false);
+  };
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -61,36 +141,27 @@ function AllSales() {
   }
 
   useEffect(() => {
-    setLoading(true);
-
-    const fetchSalesOfPreDate = async () => {
-      setError(null);
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/sales/salesofdate?date=${salesDate}`,
-
-          { withCredentials: true }
-        );
-
-        const { allsalesofDate, totalSales, totalEarning } = response.data.data;
-
-        setAllSales(allsalesofDate || []);
-        setTotalSalesCount(totalSales || 0);
-
-        if (totalEarning && totalEarning.length > 0) {
-          setTotalEarning(totalEarning[0].totalAmount);
-        } else {
-          setTotalEarning(0);
-        }
-        console.log(response);
-      } catch (error) {
-        setError("Error in fetching allsales or please check the date again");
+    if (Object.keys(sales).length === 0) {
+      if (salesDate === "Today") {
+        console.log("today");
+        fetchTodaySale(currentPage);
+      } else {
+        console.log("previous day");
+        fetchSalesOfPreDate(currentPage);
       }
-      setLoading(false);
-    };
+    } else if (salesDate !== "Today" && salesDate !== "") {
+      console.log(salesDate);
+      console.log("if sale date is  not today previous day");
+      fetchSalesOfPreDate(currentPage);
+    } else {
+      setAllSales(sales[currentpage]);
+      setTotalSalesCount(totalsales);
 
-    if (salesDate != "Today") {
-      fetchSalesOfPreDate();
+      setCurrentPage(currentpage);
+      setDayProfit(totalprofit);
+      setTotalEarning(totalearning);
+
+      setLoading(false);
     }
   }, [salesDate]);
 
@@ -111,9 +182,31 @@ function AllSales() {
         setError(null);
       }, 5000);
 
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
+      return () => clearTimeout(timer);
     }
   }, [error]);
+
+  const handlePageChange = (direction) => {
+    const newPage = currentPage + direction;
+
+    if (direction === -1) {
+      setAllSales(sales[newPage]);
+      setCurrentPage(newPage);
+      dispatch(changeCurrPage({ currentpage: newPage }));
+    } else if (direction === 1 && newPage <= lastgetpage) {
+      setAllSales(sales[newPage]);
+      setCurrentPage(newPage);
+      dispatch(changeCurrPage({ currentpage: newPage }));
+    } else {
+      if (salesDate === "Today") {
+        console.log("today");
+        fetchTodaySale(newPage);
+      } else {
+        console.log("previous day");
+        fetchSalesOfPreDate(newPage);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -203,6 +296,25 @@ function AllSales() {
             Please create a sale first
           </h2>
         )}
+        <div className="flex justify-between items-center mt-4">
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(-1)}
+            className="px-4 py-2 bg-green-500 text-white rounded-md disabled:bg-gray-300"
+          >
+            Previous
+          </Button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            disabled={currentPage === totalPages || totalPages === 0}
+            onClick={() => handlePageChange(1)}
+            className="px-4 py-2 bg-green-500 text-white rounded-md disabled:bg-gray-300"
+          >
+            Next
+          </Button>
+        </div>
       </div>
     );
   }
