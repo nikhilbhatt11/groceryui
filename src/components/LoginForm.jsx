@@ -22,24 +22,26 @@ function LoginForm() {
   const getTokenExpiryTime = (token) => {
     const decodedToken = jwtDecode(token);
     const expiryTime = decodedToken.exp;
-    console.log(expiryTime);
+
     const expiryDate = new Date(expiryTime * 1000);
-    console.log(expiryDate);
+
     const date = new Date(expiryDate).getTime();
-    console.log(date);
+
     return date;
   };
 
   const handleLogin = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/users/login`, data);
-      console.log(response.data.data);
-      const { accessToken, refreshToken, user } = response.data.data;
+      const response = await axios.post(`${API_URL}/users/login`, data, {
+        withCredentials: true,
+      });
+
+      const { accessToken, user } = response.data.data;
       const accessExpiry = getTokenExpiryTime(accessToken);
       // const refreshExpiry = getTokenExpiryTime(refreshToken);
 
-      Cookies.set("accessToken", accessToken);
+      // Cookies.set("accessToken", accessToken);
       // Cookies.set("refreshToken", refreshToken);
 
       localStorage.setItem("ate", accessExpiry);

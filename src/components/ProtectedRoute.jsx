@@ -1,45 +1,44 @@
-import { Navigate } from "react-router-dom";
-import Cookies from "js-cookie";
-
-const ProtectedRoute = ({ children }) => {
-  const accessToken = Cookies.get("accessToken");
-
-  if (!accessToken) {
-    // If the user is not authenticated, redirect to the login page
-    return <Navigate to="/login" replace />;
-  }
-
-  // If authenticated, render the children
-  return children;
-};
-
-export default ProtectedRoute;
-
+// import { useDispatch } from "react-redux";
 // import { Navigate } from "react-router-dom";
-// import Cookies from "js-cookie";
-// import { useState, useEffect } from "react";
+// import { setAuthStatus } from "../store/authSlice";
 
 // const ProtectedRoute = ({ children }) => {
-//   const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-//   useEffect(() => {
-//     const token = Cookies.get("accessToken");
-//     console.log("AccessToken:", token);
-//     setIsAuthenticated(!!token);
-//   }, []);
-
-//   // Show a loading state while checking authentication
-//   if (isAuthenticated === null) {
-//     return <div>Loading...</div>; // Replace this with a loading spinner if needed
+//   const dispatch = useDispatch();
+//   const expirytime = localStorage.getItem("ate");
+//   const currentTime = Date.now();
+//   if (currentTime >= expirytime) {
+//     dispatch(setAuthStatus({ status: false }));
+//     return <Navigate to="/" replace />;
 //   }
+//   dispatch(setAuthStatus({ status: true }));
 
-//   // If the user is not authenticated, redirect to the login page
-//   if (!isAuthenticated) {
-//     return <Navigate to="/login" replace />;
-//   }
-
-//   // If authenticated, render the children
 //   return children;
 // };
 
 // export default ProtectedRoute;
+import { useDispatch } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { setAuthStatus } from "../store/authSlice";
+
+const ProtectedRoute = ({ children }) => {
+  const dispatch = useDispatch();
+  const expirytime = localStorage.getItem("ate");
+  const currentTime = Date.now();
+
+  useEffect(() => {
+    if (currentTime >= expirytime) {
+      dispatch(setAuthStatus({ status: false }));
+    } else {
+      dispatch(setAuthStatus({ status: true }));
+    }
+  }, [currentTime, expirytime, dispatch]);
+
+  if (currentTime >= expirytime) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute;

@@ -17,7 +17,8 @@ function LogoutBtn() {
       }
     );
     dispatch(logout());
-    navigate("/login");
+    navigate("/");
+    localStorage.setItem("ate", 0);
   };
   return (
     <button

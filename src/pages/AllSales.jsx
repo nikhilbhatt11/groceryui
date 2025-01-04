@@ -14,7 +14,7 @@ function AllSales() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(50);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,7 +31,6 @@ function AllSales() {
   } = useSelector((state) => state.allsales);
 
   const fetchTodaySale = async (currentPage) => {
-    console.log("fetch called");
     try {
       const response = await axios.get(
         `${API_URL}/sales/todaysales?page=${currentPage}&limit=${limit}`,
@@ -144,15 +143,11 @@ function AllSales() {
   useEffect(() => {
     if (Object.keys(sales).length === 0) {
       if (salesDate === "Today") {
-        console.log("today");
         fetchTodaySale(currentPage);
       } else {
-        console.log("previous day");
         fetchSalesOfPreDate(currentPage);
       }
     } else if (salesDate !== "Today" && salesDate !== "") {
-      console.log(salesDate);
-      console.log("if sale date is  not today previous day");
       fetchSalesOfPreDate(currentPage);
     } else {
       setAllSales(sales[currentpage]);
@@ -200,10 +195,8 @@ function AllSales() {
       dispatch(changeCurrPage({ currentpage: newPage }));
     } else {
       if (salesDate === "Today") {
-        console.log("today");
         fetchTodaySale(newPage);
       } else {
-        console.log("previous day");
         fetchSalesOfPreDate(newPage);
       }
     }

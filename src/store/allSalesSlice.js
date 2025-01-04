@@ -26,16 +26,7 @@ const allSalesSlice = createSlice({
         lastgetpage,
         date,
       } = action.payload;
-      console.log(
-        sales,
-        totalsales,
-        totalpages,
-        currentpage,
-        totalearning,
-        totalprofit,
-        lastgetpage,
-        date
-      );
+
       state.sales[currentpage] = sales;
       state.totalsales = totalsales;
       state.totalpages = totalpages;
@@ -51,7 +42,6 @@ const allSalesSlice = createSlice({
     },
   },
 });
-// allsale, totalsales, currentpage, totalpages, totalprofit, totalearning;
 
 export const { allSalesfn, changeCurrPage } = allSalesSlice.actions;
 export default allSalesSlice.reducer;

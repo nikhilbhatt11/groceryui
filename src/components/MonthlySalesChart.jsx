@@ -23,7 +23,7 @@ function MonthlySalesChart() {
 
         { withCredentials: true }
       );
-      console.log(response.data.data);
+
       setData(response.data.data);
       setLoading(false);
     };
@@ -58,44 +58,6 @@ function MonthlySalesChart() {
           </div>
         )}
 
-        {/* <Bar
-        data={{
-          // labels: data.map((entry) => entry.monthName),
-          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-          // labels:["Jan","Feb","March","April","May","June","July","Aug","Sept","Oct","Nov","Dec"]
-          datasets: [
-            {
-              label: "Total Amt",
-              // data: data.map((entry) => entry.total),
-              data: [200, 3000, 10000, 50000, 100000, 500000],
-              borderColor: "rgba(0, 255, 0, 1)",
-              backgroundColor: "rgba(0, 255, 0, 1)",
-            },
-            {
-              label: "Margin Amt",
-              // data: data.map((entry) => entry.margin),
-              data: [20, 300, 1000, 5000, 1000, 500],
-              borderColor: "rgba(255, 0, 0, 1)",
-              backgroundColor: "rgba(255, 0, 0, 1)",
-            },
-          ],
-        }}
-        options={{
-          scales: {
-            y: {
-              beginAtZero: true,
-              min: 0, // Starting value of the Y-axis
-              max: 500000, // Maximum value of the Y-axis (set to fit your data)
-              ticks: {
-                stepSize: 1000, // The interval between tick marks
-                callback: function (value) {
-                  return value.toLocaleString(); // Format numbers with commas
-                },
-              },
-            },
-          },
-        }}
-      /> */}
         <Bar
           data={{
             // labels: [

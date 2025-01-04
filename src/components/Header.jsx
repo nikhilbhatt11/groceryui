@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Container, LogoutBtn, Menubar } from "../components/components.js";
-import Cookies from "js-cookie";
+import { LogoutBtn, Menubar } from "../components/components.js";
+
 import { Logo } from "./components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setAuthStatus } from "../store/authSlice.js";
+
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+
   const [activeItem, setActiveItem] = useState(location.pathname);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const authStatus = useSelector((state) => state.auth.status);
-  // console.log(authStatus);
-  const token = Cookies.get("accessToken");
+
+  const expiry = localStorage.getItem("ate");
+  const currentTime = Date.now();
   useEffect(() => {
-    if (token) {
-      // dispatch(setAuthStatus({ status: true }));
+    if (currentTime <= expiry) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
