@@ -1,0 +1,18 @@
+{
+  "routes": [
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "^/home$", "dest": "/index.html" },
+    { "src": "^/signup$", "dest": "/index.html" },
+    { "src": "^/login$", "dest": "/index.html" },
+    { "src": "^/add-item$", "dest": "/index.html" },
+    { "src": "^/sell$", "dest": "/index.html" },
+    { "src": "^/all-sales$", "dest": "/index.html" },
+    { "src": "^/shop-inventry$", "dest": "/index.html" },
+    { "src": "^/details/[^/]+$", "dest": "/index.html" },
+    { "src": "^/update-item/[^/]+$", "dest": "/index.html" },
+    { "src": "^/recentSale$", "dest": "/index.html" },
+    { "src": "^/saleDetails/[^/]+$", "dest": "/index.html" },
+    { "src": "^/wishlist$", "dest": "/index.html" },
+    { "src": "^/monthAnalytics$", "dest": "/index.html" }
+  ]
+}
