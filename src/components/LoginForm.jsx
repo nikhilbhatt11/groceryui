@@ -41,7 +41,7 @@ function LoginForm() {
       const accessExpiry = getTokenExpiryTime(accessToken);
       // const refreshExpiry = getTokenExpiryTime(refreshToken);
 
-      // Cookies.set("accessToken", accessToken);
+      Cookies.set("accessToken", accessToken);
       // Cookies.set("refreshToken", refreshToken);
 
       localStorage.setItem("ate", accessExpiry);

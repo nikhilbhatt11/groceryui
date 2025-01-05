@@ -28,6 +28,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (currentTime >= expirytime) {
+      Cookies.remove("accessToken");
       dispatch(setAuthStatus({ status: false }));
     } else {
       dispatch(setAuthStatus({ status: true }));
