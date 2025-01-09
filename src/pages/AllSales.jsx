@@ -36,6 +36,7 @@ function AllSales() {
         `${API_URL}/sales/todaysales?page=${currentPage}&limit=${limit}`,
         { withCredentials: true }
       );
+      console.log(response.data.data);
 
       const allsales = response.data.data.todayAllSale;
 
@@ -45,8 +46,7 @@ function AllSales() {
 
       const totalpages = response.data.data.totalPages || 1;
 
-      const totalprofit =
-        response.data.data.totalprofitToday[0]?.totalAmount || 0;
+      const totalprofit = response.data.data.profitToday;
 
       const totalearning =
         response.data.data.totalEarningToday[0]?.totalAmount || 0;
@@ -65,11 +65,14 @@ function AllSales() {
           date,
         })
       );
+      console.log(totalearning);
+      console.log(totalprofit);
+      console.log(dayprofit);
 
       setAllSales(allsales);
       setTotalSalesCount(totalsales);
       setTotalEarning(totalearning);
-      setDayProfit(totalearning - totalprofit);
+      setDayProfit(totalprofit);
       setTotalPages(totalpages);
 
       if (allsales.length === 0) {
@@ -78,6 +81,7 @@ function AllSales() {
     } catch (error) {
       setError("Error in fetching sales");
     }
+    console.log(dayprofit);
     setLoading(false);
   };
 
@@ -89,6 +93,7 @@ function AllSales() {
 
         { withCredentials: true }
       );
+      console.log(response);
 
       const allsales = response.data.data.allsalesofDate;
 
@@ -96,8 +101,8 @@ function AllSales() {
       const currentpage = response.data.data.currentPage;
       const totalpages = response.data.data.totalPages || 1;
 
-      const totalprofit =
-        response.data.data.totalprofitOfDay[0]?.totalAmount || 0;
+      const totalprofit = response.data.data.profitofDay;
+
       const totalearning = response.data.data.totalEarning[0]?.totalAmount || 0;
       const date = response.data.data.date;
 
@@ -117,7 +122,7 @@ function AllSales() {
       setAllSales(allsales);
       setTotalSalesCount(totalsales);
       setTotalEarning(totalearning);
-      setDayProfit(totalearning - totalprofit);
+      setDayProfit(totalprofit);
       setTotalPages(totalpages);
       setCurrentPage(currentPage);
       setSalesDate(date);
